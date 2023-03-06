@@ -1,11 +1,11 @@
-import type { Folder } from "@/@types/app";
+import type { Folder, FolderKey } from "@/@types/app";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type NavProps = {
   folders: Folder[];
   activeFolder: string;
-  setActiveFolder: React.Dispatch<React.SetStateAction<string>>;
+  setActiveFolder: React.Dispatch<React.SetStateAction<FolderKey>>;
 };
 
 export const Nav: React.FC<NavProps> = ({

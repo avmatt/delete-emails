@@ -1,4 +1,5 @@
-import type { Email } from "@/@types/app";
+import type { Email, FolderKey } from "@/@types/app";
+import type { EmailReducerAction } from "@/reducers/emailReducer";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,67 +13,48 @@ import {
 
 type InboxProps = {
   emails: Email[];
-  setEmails: React.Dispatch<
-    React.SetStateAction<{
-      [folder: string]: Email[];
-    }>
-  >;
-  activeFolder: string;
+  dispatchEmails: React.Dispatch<EmailReducerAction>;
+  activeFolder: FolderKey;
 };
 
 export const Inbox: React.FC<InboxProps> = ({
   emails,
-  setEmails,
+  dispatchEmails,
   activeFolder,
 }) => {
   const markAsRead = (id: number) => {
-    const _emails = emails.map((email) => ({
-      ...email,
-      read: email.id === id ? true : email.read,
-    }));
-    setEmails((allEmails) => ({
-      ...allEmails,
-      [activeFolder]: _emails,
-    }));
+    dispatchEmails({ type: "SET_READ", folder: activeFolder, id, read: true });
   };
 
   const markAsUnread = (id: number) => {
-    const _emails = emails.map((email) => ({
-      ...email,
-      read: email.id === id ? false : email.read,
-    }));
-    setEmails((allEmails) => ({
-      ...allEmails,
-      [activeFolder]: _emails,
-    }));
+    dispatchEmails({ type: "SET_READ", folder: activeFolder, id, read: false });
   };
 
   const snoozeEmail = (id: number) => {
-    const email = emails.find((email) => email.id === id);
-    if (email) {
-      const _emails = emails.filter((email) => email.id !== id);
-      setEmails((allEmails) => ({
-        ...allEmails,
-        [activeFolder]: _emails,
-        snoozed: [...allEmails.snoozed, email],
-      }));
-    }
+    dispatchEmails({
+      type: "MOVE",
+      folder: activeFolder,
+      id,
+      destination: "snoozed",
+    });
   };
 
   const archiveEmail = (id: number) => {
-    const _emails = emails.filter((email) => email.id !== id);
-    setEmails((allEmails) => ({
-      ...allEmails,
-      [activeFolder]: _emails,
-    }));
+    dispatchEmails({
+      type: "MOVE",
+      folder: activeFolder,
+      id,
+      destination: "archive",
+    });
   };
 
   const deleteEmail = (id: number) => {
-    const _emails = emails.filter((email) => email.id !== id);
-    setEmails((allEmails) => ({
-      ...allEmails,
-      [activeFolder]: _emails,
-    }));
+    dispatchEmails({
+      type: "MOVE",
+      folder: activeFolder,
+      id,
+      destination: "trash",
+    });
   };
 
   return (
@@ -93,7 +75,7 @@ export const Inbox: React.FC<InboxProps> = ({
               <span className={`${read ? "" : "font-bold"}`}>{subject}</span>
               <span className="text-gray-500">&nbsp;- {preview}</span>
             </div>
-            <div className="ml-auto hidden group-hover:block">
+            <div className="ml-auto hidden group-hover:block whitespace-nowrap">
               {read ? (
                 <button
                   className="transition-colors hover:bg-gray-300 aspect-square h-10 rounded-full"

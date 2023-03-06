@@ -1,6 +1,12 @@
 import type { IconDefinition } from "@fortawesome/pro-duotone-svg-icons";
 
-type FolderKey = "inbox" | "spam" | "snoozed" | "important" | "trash";
+export type FolderKey =
+  | "inbox"
+  | "spam"
+  | "snoozed"
+  | "important"
+  | "archive"
+  | "trash";
 export type Folder = {
   key: FolderKey;
   label: string;
