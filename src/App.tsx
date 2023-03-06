@@ -1,4 +1,4 @@
-import type { IconDefinition } from "@fortawesome/pro-duotone-svg-icons";
+import type { Folder, Email } from "@/@types/app";
 
 import { useState } from "react";
 import {
@@ -8,34 +8,18 @@ import {
   faInbox,
   faTrash,
 } from "@fortawesome/pro-duotone-svg-icons";
-import { Inbox } from "./Inbox";
-import { Nav } from "./Nav";
-import { TopBar } from "./TopBar";
-
-export type Folder = {
-  id: string;
-  label: string;
-  icon: IconDefinition;
-  count: number;
-};
-
-export type Email = {
-  id: number;
-  read: boolean;
-  from: string;
-  subject: string;
-  preview: string;
-  timestamp: string;
-};
+import { Inbox } from "@/components/Inbox";
+import { Nav } from "@/components/Nav";
+import { TopBar } from "@/components/TopBar";
 
 export const App = () => {
   const [activeFolder, setActiveFolder] = useState("inbox");
   const [folders, setFolders] = useState<Folder[]>([
-    { id: "inbox", label: "Inbox", icon: faInbox, count: 0 },
-    { id: "spam", label: "Spam", icon: faHexagonExclamation, count: 0 },
-    { id: "snoozed", label: "Snoozed", icon: faClock, count: 0 },
-    { id: "important", label: "Important", icon: faBookmark, count: 0 },
-    { id: "trash", label: "Trash", icon: faTrash, count: 0 },
+    { key: "inbox", label: "Inbox", icon: faInbox, count: 0 },
+    { key: "spam", label: "Spam", icon: faHexagonExclamation, count: 0 },
+    { key: "snoozed", label: "Snoozed", icon: faClock, count: 0 },
+    { key: "important", label: "Important", icon: faBookmark, count: 0 },
+    { key: "trash", label: "Trash", icon: faTrash, count: 0 },
   ]);
 
   const [emails, setEmails] = useState<{ [folder: string]: Email[] }>({

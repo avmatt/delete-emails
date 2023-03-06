@@ -1,4 +1,4 @@
-import type { Folder } from "./App";
+import type { Folder } from "@/@types/app";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -15,13 +15,15 @@ export const Nav: React.FC<NavProps> = ({
 }) => {
   return (
     <div className="">
-      {folders.map(({ id, icon, label, count }) => (
+      {folders.map(({ key, icon, label, count }) => (
         <button
-          key={id}
+          key={key}
           className={`flex items-center w-full text-left px-5 py-2 text-sm rounded-r-full transition-colors ${
-            activeFolder === id ? "bg-slate-300 font-bold" : "hover:bg-gray-200"
+            activeFolder === key
+              ? "bg-slate-300 font-bold"
+              : "hover:bg-gray-200"
           }`}
-          onClick={() => setActiveFolder(id)}
+          onClick={() => setActiveFolder(key)}
         >
           <FontAwesomeIcon icon={icon} className="fa-lg fa-fw mr-3" />
           {label}

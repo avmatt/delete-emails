@@ -1,4 +1,4 @@
-import type { Email } from "./App";
+import type { Email } from "@/@types/app";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
