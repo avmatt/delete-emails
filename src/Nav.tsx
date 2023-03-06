@@ -1,54 +1,27 @@
-import { useState } from "react";
+import type { Folder } from "./App";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookmark,
-  faClock,
-  faHexagonExclamation,
-  faInbox,
-  faTrash,
-} from "@fortawesome/pro-duotone-svg-icons";
 
-export const Nav = () => {
-  const [activeFolder, setActiveFolder] = useState("Inbox");
-  const folders = [
-    {
-      icon: faInbox,
-      label: "Inbox",
-      count: 513,
-    },
-    {
-      icon: faHexagonExclamation,
-      label: "Spam",
-      count: 9,
-    },
-    {
-      icon: faClock,
-      label: "Snoozed",
-      count: 3,
-    },
-    {
-      icon: faBookmark,
-      label: "Important",
-      count: 2,
-    },
-    {
-      icon: faTrash,
-      label: "Trash",
-      count: 302,
-    },
-  ];
+type NavProps = {
+  folders: Folder[];
+  activeFolder: string;
+  setActiveFolder: React.Dispatch<React.SetStateAction<string>>;
+};
 
+export const Nav: React.FC<NavProps> = ({
+  folders,
+  activeFolder,
+  setActiveFolder,
+}) => {
   return (
     <div className="">
-      {folders.map(({ icon, label, count }) => (
+      {folders.map(({ id, icon, label, count }) => (
         <button
-          key={label}
+          key={id}
           className={`flex items-center w-full text-left px-5 py-2 text-sm rounded-r-full transition-colors ${
-            activeFolder === label
-              ? "bg-slate-300 font-bold"
-              : "hover:bg-gray-200"
+            activeFolder === id ? "bg-slate-300 font-bold" : "hover:bg-gray-200"
           }`}
-          onClick={() => setActiveFolder(label)}
+          onClick={() => setActiveFolder(id)}
         >
           <FontAwesomeIcon icon={icon} className="fa-lg fa-fw mr-3" />
           {label}
